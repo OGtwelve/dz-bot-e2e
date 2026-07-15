@@ -9,8 +9,8 @@ export function parseConfig(input: unknown): ProjectConfig {
   }
 
   const plugins = (input as { plugins?: unknown }).plugins;
-  if (!Array.isArray(plugins) || plugins.length === 0) {
-    throw new TypeError('plugins must be a non-empty array');
+  if (!Array.isArray(plugins)) {
+    throw new TypeError('plugins must be an array');
   }
 
   if (!plugins.every((plugin) => typeof plugin === 'string')) {
