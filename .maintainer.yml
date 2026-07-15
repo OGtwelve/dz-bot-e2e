@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://developerz.ai/schemas/maintainer.v1.json
+version: 1
+
+tone:
+  voice: friendly
+  language: en
+
+triage:
+  ask_for_repro: true
+  required_fields: [steps, expected, actual, version]
+  qualify_into: [bug, feature, question, docs, chore]
+  confidence_threshold: 0.6
+
+handoff:
+  mode: label
+  label: ready-for-agent
+  ask_reporter_first: false
+
+pr:
+  wait_for_other_bots: []
+  required_checks: []
+  auto_merge: false
+
+coding:
+  max_concurrent_worktrees: 1
