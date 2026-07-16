@@ -2,7 +2,8 @@ export interface ProjectConfig {
   plugins: string[];
 }
 
-/** Parse the small project config used by this end-to-end fixture. */
+/** Parse the small project config used by this end-to-end fixture.
+ *  Returns a validated {@link ProjectConfig}; throws TypeError on malformed input. */
 export function parseConfig(input: unknown): ProjectConfig {
   if (typeof input !== 'object' || input === null) {
     throw new TypeError('config must be an object');
