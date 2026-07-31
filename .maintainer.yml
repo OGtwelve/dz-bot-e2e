@@ -12,7 +12,9 @@ triage:
   confidence_threshold: 0.6
 
 handoff:
-  mode: label
+  # fleet = dispatch to this repo's own developerz-hosted BYOVM fleet; the
+  # assigner claims the durable tasks row directly, no external webhook fires.
+  mode: fleet
   label: ready-for-agent
   ask_reporter_first: false
 
