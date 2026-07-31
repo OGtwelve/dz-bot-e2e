@@ -19,3 +19,10 @@ describe('parseConfig', () => {
     );
   });
 });
+
+test('the returned config cannot be mutated through the input object', () => {
+  const input = { plugins: ['a', 'b'] };
+  const cfg = parseConfig(input);
+  input.plugins.push('c');
+  expect(cfg.plugins).toEqual(['a', 'b']);
+});
