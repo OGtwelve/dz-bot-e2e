@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      # A deliberate delay so a reviewer observing this PR sees checks still
+      # running — the pending-checks window the maintainer loop parks on.
+      - run: sleep 90
+      - run: bun test
