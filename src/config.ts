@@ -17,5 +17,8 @@ export function parseConfig(input: unknown): ProjectConfig {
     throw new TypeError('plugins must contain only strings');
   }
 
-  return { plugins };
+  // Copy at the return: `plugins` is the CALLER's array, so handing it back
+  // by reference lets a later `input.plugins.push(...)` mutate a config this
+  // function already validated.
+  return { plugins: [...plugins] };
 }
