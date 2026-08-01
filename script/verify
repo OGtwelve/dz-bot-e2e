@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Post-edit gate: typecheck + test. Run this after every code change.
+# On a fresh checkout this reports 1 EXPECTED failure — the deliberate bug in
+# src/config.ts (see CLAUDE.md). That is correct, not a broken gate.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+echo "→ bun run typecheck"
+bun run typecheck
+
+echo "→ bun test"
+bun test
