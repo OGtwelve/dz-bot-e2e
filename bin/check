@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# one-command check (typecheck + test) — established by dz-runner setup mode (#313). One command; adjust as the repo grows.
+# No linter is configured for this fixture (CLAUDE.md: do not grow/harden it), so
+# there is no lint step. Like ./script/verify, this reports 1 EXPECTED failure on a
+# fresh checkout — the deliberate bug in src/config.ts (see CLAUDE.md). By design.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+bun run typecheck && bun test
