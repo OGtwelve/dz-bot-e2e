@@ -41,6 +41,19 @@ bun run typecheck      # tsc --noEmit only
 > On a fresh checkout `bun test` reports **1 expected failure** — that is the deliberate bug below,
 > not a broken setup. `./script/bootstrap` typechecks clean and exits 0.
 
+### `bin/*` — runner interface (dz-runner setup mode)
+
+These thin wrappers are the runner-facing equivalents of the `script/*` gates above:
+
+```bash
+bin/setup   # bun install
+bin/dev     # bun dev → bun test --watch (no app/server in this fixture; the test suite IS the dev loop)
+bin/check   # typecheck + test (mirrors ./script/verify; no linter is configured)
+```
+
+`bin/check` reports the same **1 expected failure** on a fresh checkout — by design, not a broken gate.
+There is no lint step: no linter is configured, and adding one would grow/harden this fixture (see guardrails).
+
 ## ⚠️ The deliberate bug — do not "fix" it unprompted
 
 `src/config.ts:12` rejects an empty plugin list (`|| plugins.length === 0`), so
