@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
-# one-command check (typecheck + test) — established by dz-runner setup mode (#313). One command; adjust as the repo grows.
-# No linter is configured for this fixture (CLAUDE.md: do not grow/harden it), so
-# there is no lint step. Like ./script/verify, this reports 1 EXPECTED failure on a
-# fresh checkout — the deliberate bug in src/config.ts (see CLAUDE.md). By design.
+# one-command check (typecheck + test) — established by dz-runner setup mode (#313).
+#
+# CI alignment (verified vs .github/workflows/ci.yml): CI's only gate is `bun test`.
+# This runs that same gate plus a typecheck CI doesn't enforce, so it covers every
+# CI gate and more. CI's `bun install --frozen-lockfile` is setup (see bin/setup)
+# and its `sleep 90` is the deliberate pending-checks window (CLAUDE.md: leave it
+# alone) — neither belongs in a local check. No lint step exists: the fixture ships
+# none (CLAUDE.md: do not grow/harden it). Like ./script/verify, this reports 1
+# EXPECTED failure on a fresh checkout — the deliberate bug in src/config.ts (see
+# CLAUDE.md). By design.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 bun run typecheck && bun test
