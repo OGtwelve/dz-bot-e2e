@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # one-command setup — established by dz-runner setup mode (#313). One command; adjust as the repo grows.
+# Uses --frozen-lockfile to match CI (.github/workflows/ci.yml) and ./script/bootstrap: this is a
+# pinned-lockfile repo, so a bare `bun install` could silently drift bun.lock on a fresh clone.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-bun install
+bun install --frozen-lockfile
