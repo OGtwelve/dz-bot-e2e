@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# bin/check — local verification gate, aligned with CI.
+#
+# CI (.github/workflows/ci.yml) runs exactly one verification gate — `bun test`
+# — after `bun install --frozen-lockfile` (setup, not a gate) and an intentional
+# `sleep 90` (the pending-checks window the maintainer loop parks on; CI-only by
+# design, see CLAUDE.md non-negotiables). This script covers that one CI gate
+# and adds a `typecheck` step CI does not enforce, so it is a strict superset:
+# if `bun test` passes here, the `bun test` gate in CI passes too.
+#
+# Gates the task asks about:
+#   test      — `bun test`         — covered (identical to CI's one gate)
+#   typecheck — `bun run typecheck` — covered (extra; CI skips it, so this is
+#                                       stricter locally, not a gap)
+#   lint      — none configured     — intentionally absent; this throwaway fixture
+#                                       ships no linter (CLAUDE.md: don't grow it)
+#
+# Not included, deliberately:
+#   - `bun install --frozen-lockfile` belongs to *setup* (bin/setup /
+#     script/bootstrap), not a check; CI's gate list is (lint, typecheck, test).
+#   - `sleep 90` is the CI-only parking window; replicating it locally is noise.
+#
+# Expect ONE failing test on a fresh checkout — the deliberate bug in
+# src/config.ts (`|| plugins.length === 0`) is the entire point of this fixture
+# and is NOT fixed here. CI hits the same red; that failure is the alignment
+# signal, not a broken gate.
+set -euo pipefail
+
+bun run typecheck
+bun test
